@@ -19,6 +19,9 @@ public class SubCategory {
     @Column(name = "SUB_CATEGORY_NAME")
     @Setter
     private String name;
+    @Column(name = "IS_DELETE")
+    @Setter
+    private Boolean isDelete;
     @Column(name = "CATEGORY_ID")
     private Long categoryId;
 }
