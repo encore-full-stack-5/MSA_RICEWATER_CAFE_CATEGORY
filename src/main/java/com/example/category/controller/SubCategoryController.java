@@ -60,9 +60,9 @@ public class SubCategoryController {
 
     // 카페의 카테고리를 삭제한다
     @PutMapping("/delete/{id}")
-    public void deletedSubCategory(
+    public void deleteSubCategory(
             @PathVariable("id") Long id
     ) {
-        subCategoryService.deletedSubCategory(id);
+        subCategoryService.deleteSubCategory(id);
     }
 }

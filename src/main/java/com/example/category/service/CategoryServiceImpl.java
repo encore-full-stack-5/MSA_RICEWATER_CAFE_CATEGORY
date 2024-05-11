@@ -64,7 +64,7 @@ public class CategoryServiceImpl implements CategoryService {
     // 카테고리 삭제
     @Transactional
     @Override
-    public void deletedCategory(Long id) {
+    public void deleteCategory(Long id) {
         Optional<Category> byId = categoryRepository.findByIsDeleteFalseAndId(id);
         Category category = byId.orElseThrow(() -> new AlreadyDeletedException(id));
 

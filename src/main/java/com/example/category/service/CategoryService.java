@@ -52,5 +52,5 @@ public interface CategoryService {
      *
      * 카페의 카테고리를 삭제한다
      */
-    void deletedCategory(Long id);
+    void deleteCategory(Long id);
 }

@@ -51,5 +51,5 @@ public interface SubCategoryService {
      *
      * 메인 카테고리의 서브 카테고리를 삭제한다
      */
-    void deletedSubCategory(Long id);
+    void deleteSubCategory(Long id);
 }

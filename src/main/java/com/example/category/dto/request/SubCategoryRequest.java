@@ -4,7 +4,6 @@ import com.example.category.global.domain.entity.SubCategory;
 
 public record SubCategoryRequest(
         String name,
-        Boolean isDelete,
         Long categoryId
 ) {
     public SubCategory toEntity() {

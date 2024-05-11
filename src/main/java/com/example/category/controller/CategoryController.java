@@ -34,7 +34,7 @@ public class CategoryController {
     }
 
     // 카페의 카테고리를 단일 조회한다
-    @GetMapping("{id}")
+    @GetMapping("/{id}")
     CategoryResponse getCategoryById(
             @PathVariable("id") Long id
     ) {
@@ -60,9 +60,9 @@ public class CategoryController {
 
     // 카페의 카테고리를 삭제한다
     @PutMapping("/delete/{id}")
-    public void deletedCategory(
+    public void deleteCategory(
             @PathVariable("id") Long id
     ) {
-        categoryService.deletedCategory(id);
+        categoryService.deleteCategory(id);
     }
 }
