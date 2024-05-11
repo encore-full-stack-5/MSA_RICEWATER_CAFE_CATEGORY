@@ -3,13 +3,16 @@ package com.example.category.service;
 import com.example.category.dto.request.SubCategoryRequest;
 import com.example.category.dto.request.UpdateSubCategoryRequest;
 import com.example.category.dto.response.SubCategoryResponse;
+import com.example.category.exception.AlreadyDeletedException;
+import com.example.category.exception.ExistNameException;
+import com.example.category.exception.SubCategoryIdNotFoundException;
 import com.example.category.global.domain.entity.SubCategory;
 import com.example.category.global.domain.repository.SubCategoryRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.awt.print.Pageable;
 import java.util.List;
 import java.util.Optional;
 
@@ -30,7 +33,7 @@ public class SubCategoryServiceImpl implements SubCategoryService {
     @Override
     public SubCategoryResponse getSubCategoryById(Long id) {
         Optional<SubCategory> byId = subCategoryRepository.findByIsDeleteFalseAndId(id);
-        SubCategory subCategory = byId.orElseThrow(() -> new IllegalArgumentException(String.valueOf(id)));
+        SubCategory subCategory = byId.orElseThrow(() -> new SubCategoryIdNotFoundException(id));
         return SubCategoryResponse.from(subCategory);
     }
 
@@ -38,11 +41,12 @@ public class SubCategoryServiceImpl implements SubCategoryService {
     @Transactional
     @Override
     public void createSubCategory(
-            SubCategoryRequest subCategoryRequest
+            SubCategoryRequest request
     ) {
-        Optional<SubCategory> byUserId = subCategoryRepository.findByCategoryId(subCategoryRequest.categoryId());
-        if(byUserId.isPresent()) throw new IllegalArgumentException();
-        subCategoryRepository.save(subCategoryRequest.toEntity());
+        Optional<SubCategory> byName = subCategoryRepository.findByName(request.name());
+        if(byName.isPresent()) throw new ExistNameException(request.name());
+
+        subCategoryRepository.save(request.toEntity());
     }
 
     // 서브 카테고리 수정
@@ -50,18 +54,19 @@ public class SubCategoryServiceImpl implements SubCategoryService {
     @Override
     public void updateSubCategory(Long id, UpdateSubCategoryRequest request) {
         Optional<SubCategory> byId = subCategoryRepository.findById(id);
-        SubCategory subCategory = byId.orElseThrow(IllegalArgumentException::new);
+        SubCategory subCategory = byId.orElseThrow(() -> new SubCategoryIdNotFoundException(id));
+        Optional<SubCategory> byName = subCategoryRepository.findByName(request.name());
+        if(byName.isPresent()) throw new ExistNameException(request.name());
 
         subCategory.setName(request.name());
-        subCategory.setIsDelete(request.isDelete());
     }
 
-    // 카테고리 삭제
+    // 서브 카테고리 삭제
     @Transactional
     @Override
     public void deletedSubCategory(Long id) {
-        Optional<SubCategory> byId = subCategoryRepository.findById(id);
-        SubCategory subCategory = byId.orElseThrow(IllegalArgumentException::new);
+        Optional<SubCategory> byId = subCategoryRepository.findByIsDeleteFalseAndId(id);
+        SubCategory subCategory = byId.orElseThrow(() -> new AlreadyDeletedException(id));
 
         subCategory.setIsDelete(true);
     }

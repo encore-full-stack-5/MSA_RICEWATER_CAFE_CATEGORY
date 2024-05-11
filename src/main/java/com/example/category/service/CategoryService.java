@@ -1,10 +1,11 @@
 package com.example.category.service;
 
 import com.example.category.dto.request.CategoryRequest;
+import com.example.category.dto.request.DeleteCategoryRequest;
 import com.example.category.dto.request.UpdateCategoryRequest;
 import com.example.category.dto.response.CategoryResponse;
+import org.springframework.data.domain.Pageable;
 
-import java.awt.print.Pageable;
 import java.util.List;
 
 public interface CategoryService {

@@ -3,8 +3,8 @@ package com.example.category.service;
 import com.example.category.dto.request.SubCategoryRequest;
 import com.example.category.dto.request.UpdateSubCategoryRequest;
 import com.example.category.dto.response.SubCategoryResponse;
+import org.springframework.data.domain.Pageable;
 
-import java.awt.print.Pageable;
 import java.util.List;
 
 public interface SubCategoryService {

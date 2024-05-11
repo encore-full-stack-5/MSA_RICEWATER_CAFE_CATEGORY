@@ -3,13 +3,16 @@ package com.example.category.service;
 import com.example.category.dto.request.CategoryRequest;
 import com.example.category.dto.request.UpdateCategoryRequest;
 import com.example.category.dto.response.CategoryResponse;
+import com.example.category.exception.AlreadyDeletedException;
+import com.example.category.exception.CategoryIdNotFoundException;
+import com.example.category.exception.ExistNameException;
 import com.example.category.global.domain.entity.Category;
 import com.example.category.global.domain.repository.CategoryRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.awt.print.Pageable;
 import java.util.List;
 import java.util.Optional;
 
@@ -30,7 +33,7 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public CategoryResponse getCategoryById(Long id) {
         Optional<Category> byId = categoryRepository.findByIsDeleteFalseAndId(id);
-        Category category = byId.orElseThrow(() -> new IllegalArgumentException(String.valueOf(id)));
+        Category category = byId.orElseThrow(() -> new CategoryIdNotFoundException(id));
         return CategoryResponse.from(category);
     }
 
@@ -38,11 +41,12 @@ public class CategoryServiceImpl implements CategoryService {
     @Transactional
     @Override
     public void createCategory(
-            CategoryRequest categoryRequest
+            CategoryRequest request
     ) {
-        Optional<Category> byUserId = categoryRepository.findByCafeId(categoryRequest.cafeId());
-        if(byUserId.isPresent()) throw new IllegalArgumentException();
-        categoryRepository.save(categoryRequest.toEntity());
+        Optional<Category> byName = categoryRepository.findByName(request.name());
+        if(byName.isPresent()) throw new ExistNameException(request.name());
+
+        categoryRepository.save(request.toEntity());
     }
 
     // 카테고리 수정
@@ -50,18 +54,19 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public void updateCategory(Long id, UpdateCategoryRequest request) {
         Optional<Category> byId = categoryRepository.findById(id);
-        Category category = byId.orElseThrow(IllegalArgumentException::new);
+        Category category = byId.orElseThrow(() -> new CategoryIdNotFoundException(id));
+        Optional<Category> byName = categoryRepository.findByName(request.name());
+        if(byName.isPresent()) throw new ExistNameException(request.name());
 
         category.setName(request.name());
-        category.setIsDelete(request.isDelete());
     }
 
     // 카테고리 삭제
     @Transactional
     @Override
     public void deletedCategory(Long id) {
-        Optional<Category> byId = categoryRepository.findById(id);
-        Category category = byId.orElseThrow(IllegalArgumentException::new);
+        Optional<Category> byId = categoryRepository.findByIsDeleteFalseAndId(id);
+        Category category = byId.orElseThrow(() -> new AlreadyDeletedException(id));
 
         category.setIsDelete(true);
     }
