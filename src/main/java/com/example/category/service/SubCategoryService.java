@@ -1,7 +1,6 @@
 package com.example.category.service;
 
 import com.example.category.dto.request.SubCategoryRequest;
-import com.example.category.dto.request.UpdateSubCategoryRequest;
 import com.example.category.dto.response.SubCategoryResponse;
 import org.springframework.data.domain.Pageable;
 
@@ -42,7 +41,7 @@ public interface SubCategoryService {
      *
      * 메인 카테고리의 서브 카테고리를 수정한다
      */
-    void updateSubCategory(Long id, UpdateSubCategoryRequest updateSubCategoryRequest);
+    void updateSubCategory(Long id, SubCategoryRequest subCategoryRequest);
 
     /*
      * @param id

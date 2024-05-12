@@ -1,7 +1,6 @@
 package com.example.category.controller;
 
 import com.example.category.dto.request.SubCategoryRequest;
-import com.example.category.dto.request.UpdateSubCategoryRequest;
 import com.example.category.dto.response.SubCategoryResponse;
 import com.example.category.service.SubCategoryService;
 import lombok.RequiredArgsConstructor;
@@ -53,9 +52,9 @@ public class SubCategoryController {
     @PutMapping("/{id}")
     public void updateSubCategory(
             @PathVariable("id") Long id,
-            @RequestBody UpdateSubCategoryRequest updateSubCategoryRequest
+            @RequestBody SubCategoryRequest subCategoryRequest
     ) {
-        subCategoryService.updateSubCategory(id, updateSubCategoryRequest);
+        subCategoryService.updateSubCategory(id, subCategoryRequest);
     }
 
     // 카페의 카테고리를 삭제한다

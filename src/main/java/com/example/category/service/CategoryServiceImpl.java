@@ -1,7 +1,6 @@
 package com.example.category.service;
 
 import com.example.category.dto.request.CategoryRequest;
-import com.example.category.dto.request.UpdateCategoryRequest;
 import com.example.category.dto.response.CategoryResponse;
 import com.example.category.exception.AlreadyDeletedException;
 import com.example.category.exception.CategoryIdNotFoundException;
@@ -52,7 +51,7 @@ public class CategoryServiceImpl implements CategoryService {
     // 카테고리 수정
     @Transactional
     @Override
-    public void updateCategory(Long id, UpdateCategoryRequest request) {
+    public void updateCategory(Long id, CategoryRequest request) {
         Optional<Category> byId = categoryRepository.findById(id);
         Category category = byId.orElseThrow(() -> new CategoryIdNotFoundException(id));
         Optional<Category> byName = categoryRepository.findByName(request.name());
