@@ -14,9 +14,6 @@ public interface CategoryRepository extends JpaRepository<Category, Long> {
     // 카테고리 단일 조회
     Optional<Category> findByIsDeleteFalseAndId(Long id);
 
-    // 카페 아이디 조회
-    Optional<Category> findByCafeId(Long cafeId);
-
     // 카테고리 이름 조회
     Optional<Category> findByName(String name);
 }

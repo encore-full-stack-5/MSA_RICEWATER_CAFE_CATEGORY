@@ -1,8 +1,6 @@
 package com.example.category.service;
 
 import com.example.category.dto.request.CategoryRequest;
-import com.example.category.dto.request.DeleteCategoryRequest;
-import com.example.category.dto.request.UpdateCategoryRequest;
 import com.example.category.dto.response.CategoryResponse;
 import org.springframework.data.domain.Pageable;
 
@@ -43,7 +41,7 @@ public interface CategoryService {
      *
      * 카페의 카테고리를 수정한다
      */
-    void updateCategory(Long id, UpdateCategoryRequest updateCategoryRequest);
+    void updateCategory(Long id, CategoryRequest categoryRequest);
 
     /*
      * @param id
@@ -52,5 +50,5 @@ public interface CategoryService {
      *
      * 카페의 카테고리를 삭제한다
      */
-    void deletedCategory(Long id);
+    void deleteCategory(Long id);
 }

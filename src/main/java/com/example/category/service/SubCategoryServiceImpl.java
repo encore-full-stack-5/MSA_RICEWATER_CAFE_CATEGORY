@@ -1,7 +1,6 @@
 package com.example.category.service;
 
 import com.example.category.dto.request.SubCategoryRequest;
-import com.example.category.dto.request.UpdateSubCategoryRequest;
 import com.example.category.dto.response.SubCategoryResponse;
 import com.example.category.exception.AlreadyDeletedException;
 import com.example.category.exception.ExistNameException;
@@ -52,7 +51,7 @@ public class SubCategoryServiceImpl implements SubCategoryService {
     // 서브 카테고리 수정
     @Transactional
     @Override
-    public void updateSubCategory(Long id, UpdateSubCategoryRequest request) {
+    public void updateSubCategory(Long id, SubCategoryRequest request) {
         Optional<SubCategory> byId = subCategoryRepository.findById(id);
         SubCategory subCategory = byId.orElseThrow(() -> new SubCategoryIdNotFoundException(id));
         Optional<SubCategory> byName = subCategoryRepository.findByName(request.name());
@@ -64,7 +63,7 @@ public class SubCategoryServiceImpl implements SubCategoryService {
     // 서브 카테고리 삭제
     @Transactional
     @Override
-    public void deletedSubCategory(Long id) {
+    public void deleteSubCategory(Long id) {
         Optional<SubCategory> byId = subCategoryRepository.findByIsDeleteFalseAndId(id);
         SubCategory subCategory = byId.orElseThrow(() -> new AlreadyDeletedException(id));
 

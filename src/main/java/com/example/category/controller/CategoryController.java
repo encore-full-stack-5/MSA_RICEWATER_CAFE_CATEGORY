@@ -1,7 +1,6 @@
 package com.example.category.controller;
 
 import com.example.category.dto.request.CategoryRequest;
-import com.example.category.dto.request.UpdateCategoryRequest;
 import com.example.category.dto.response.CategoryResponse;
 import com.example.category.service.CategoryService;
 import lombok.RequiredArgsConstructor;
@@ -34,7 +33,7 @@ public class CategoryController {
     }
 
     // 카페의 카테고리를 단일 조회한다
-    @GetMapping("{id}")
+    @GetMapping("/{id}")
     CategoryResponse getCategoryById(
             @PathVariable("id") Long id
     ) {
@@ -53,16 +52,16 @@ public class CategoryController {
     @PutMapping("/{id}")
     public void updateCategory(
             @PathVariable("id") Long id,
-            @RequestBody UpdateCategoryRequest updateCategoryRequest
+            @RequestBody CategoryRequest categoryRequest
     ) {
-        categoryService.updateCategory(id, updateCategoryRequest);
+        categoryService.updateCategory(id, categoryRequest);
     }
 
     // 카페의 카테고리를 삭제한다
     @PutMapping("/delete/{id}")
-    public void deletedCategory(
+    public void deleteCategory(
             @PathVariable("id") Long id
     ) {
-        categoryService.deletedCategory(id);
+        categoryService.deleteCategory(id);
     }
 }
