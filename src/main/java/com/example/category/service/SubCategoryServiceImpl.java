@@ -63,7 +63,7 @@ public class SubCategoryServiceImpl implements SubCategoryService {
     // 서브 카테고리 삭제
     @Transactional
     @Override
-    public void deletedSubCategory(Long id) {
+    public void deleteSubCategory(Long id) {
         Optional<SubCategory> byId = subCategoryRepository.findByIsDeleteFalseAndId(id);
         SubCategory subCategory = byId.orElseThrow(() -> new AlreadyDeletedException(id));
 
